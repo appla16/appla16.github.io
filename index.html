@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Persamaan Kuadrat</title>
+    <link rel="icon" type="image/x-icon" href="https://lh3.google.com/u/0/d/1XGSILyXCZQadoo2StHEs_mLMt632qzjg=w3000-h6501-iv1">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('https://lh3.google.com/u/0/d/1sQwE23Ucga4zalkcbvc8-Y-oVAI8rsGJ=w3000-h6501-iv1');
+            background-size: cover;
+            margin: 0;
+            color: #000;
+        }
+        .overlay {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            width: 60vw;
+            max-width: 400px;
+            height: 70vh;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .overlay input, .overlay select {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .overlay button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #929AAB;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .overlay button:hover {
+            background-color: #797D9A;
+        }
+        .results {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .result-item {
+            flex: 1;
+            text-align: center;
+            background-color: #393E46;
+            color: #fff;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+        }
+        .note {
+            margin-top: 20px;
+            text-align: left;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <h1>Persamaan Kuadrat</h1>
+        <form id="quadraticForm">
+            <div>
+                <input type="number" id="a" placeholder="Masukkan nilai a" required>
+                <select id="operator1">
+                    <option value="+">+</option>
+                    <option value="-">-</option>
+                    <option value="*">*</option>
+                    <option value="/">/</option>
+                </select>
+                <input type="number" id="b" placeholder="Masukkan nilai b" required>
+                <select id="operator2">
+                    <option value="+">+</option>
+                    <option value="-">-</option>
+                    <option value="*">*</option>
+                    <option value="/">/</option>
+                </select>
+                <input type="text" id="c" placeholder="Masukkan nilai c atau ~" required>
+            </div>
+            <button type="submit">Hitung</button>
+        </form>
+        <div class="results" id="results">
+            <div class="result-item">
+                <p>x<sub>1</sub> = <span id="x1"></span></p>
+                <p>x<sub>2</sub> = <span id="x2"></span></p>
+            </div>
+            <div class="result-item">
+                <p>x<sub>1</sub> + x<sub>2</sub> = <span id="sum"></span></p>
+                <p>x<sub>1</sub> · x<sub>2</sub> = <span id="product"></span></p>
+            </div>
+        </div>
+        <div class="note">
+            <p>ket :</p>
+            <p>~ : untuk 2 variabel/mengosongkan nilai</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('quadraticForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const a = parseFloat(document.getElementById('a').value);
+            const b = parseFloat(document.getElementById('b').value);
+            const cValue = document.getElementById('c').value.trim();
+            const c = cValue === "~" ? 0 : parseFloat(cValue);
+            const operator1 = document.getElementById('operator1').value;
+            const operator2 = document.getElementById('operator2').value;
+
+            let modifiedB, modifiedC;
+            switch (operator1) {
+                case '+':
+                    modifiedB = a + b;
+                    break;
+                case '-':
+                    modifiedB = a - b;
+                    break;
+                case '*':
+                    modifiedB = a * b;
+                    break;
+                case '/':
+                    modifiedB = a / b;
+                    break;
+            }
+            switch (operator2) {
+                case '+':
+                    modifiedC = modifiedB + c;
+                    break;
+                case '-':
+                    modifiedC = modifiedB - c;
+                    break;
+                case '*':
+                    modifiedC = modifiedB * c;
+                    break;
+                case '/':
+                    modifiedC = modifiedB / c;
+                    break;
+            }
+
+            const discriminant = modifiedB * modifiedB - 4 * a * modifiedC;
+            let x1, x2;
+
+            if (discriminant >= 0) {
+                x1 = (-modifiedB + Math.sqrt(discriminant)) / (2 * a);
+                x2 = (-modifiedB - Math.sqrt(discriminant)) / (2 * a);
+            } else {
+                x1 = x2 = 'Tidak Real';
+            }
+
+            document.getElementById('x1').textContent = x1;
+            document.getElementById('x2').textContent = x2;
+            document.getElementById('sum').textContent = x1 !== 'Tidak Real' ? x1 + x2 : 'Tidak Real';
+            document.getElementById('product').textContent = x1 !== 'Tidak Real' ? x1 * x2 : 'Tidak Real';
+        });
+    </script>
+</body>
+</html>
